@@ -18,30 +18,30 @@ using namespace std;
 	vector<string>patreonName;
 	vector<string>patreonCP;
 	
-void openFile(int n){
+void openFile(int s){
 	string word;
 	int pos = 0;
 	ifstream myfile;
-	if(n==1) myfile.open("bookData.txt");
-	if(n==2) myfile.open("patronData.txt");
-	if(n==3) myfile.open("checkoutData.txt");
+	if(s==1) myfile.open("bookData.txt");
+	if(s==2) myfile.open("patronData.txt");
+	if(s==3) myfile.open("checkoutData.txt");
 	if(myfile.is_open()){
-		if(n==1){bookID.clear(); bookTitle.clear(); bookAuthor.clear(); bookPublisher.clear(); bookAvailability.clear();}
-		if(n==2){patreonID.clear(); patreonName.clear(); patreonCP.clear();}
+		if(s==1){bookID.clear(); bookTitle.clear(); bookAuthor.clear(); bookPublisher.clear(); bookAvailability.clear();}
+		if(s==2){patreonID.clear(); patreonName.clear(); patreonCP.clear();}
 		while(getline(myfile,word)){
-			if(n==1){
+			if(s==1){
 				if(pos == 0 and word.size()!=0) bookID.push_back(word);
 				if(pos == 1 and word.size()!=0) bookTitle.push_back(word);
 				if(pos == 2 and word.size()!=0) bookAuthor.push_back(word);
 				if(pos == 3 and word.size()!=0) bookPublisher.push_back(word);
 				if(pos == 4 and word.size()!=0) bookAvailability.push_back(word);
 			}
-			if(n==2){
+			if(s==2){
 				if(pos == 0 and word.size()!=0) patreonID.push_back(word);
 				if(pos == 1 and word.size()!=0) patreonName.push_back(word);
 				if(pos == 2 and word.size()!=0) patreonCP.push_back(word);
 			}
-//			if(n==3){
+//			if(s==3){
 //				
 //			}
 			pos++;
@@ -101,8 +101,6 @@ void saveFile(int n){
 //		}
 //	}
 //}
-
-
 void header(){
 cout << "\t __    _ _                " << endl;   
 cout << "\t|  |  |_| |_ ___ ___ ___ _ _ " << endl;
@@ -206,6 +204,7 @@ void addBookData(){
 }
 
 void searchBooks(){
+	openFile(1);
 	cout << "\t\t\t\tSEARCHING A BOOK" << endl;
 	string search;
 	int n = bookID.size();
@@ -387,18 +386,17 @@ void searchBooks(){
 		cout << "\n\t\t    Returning to main menu" << endl << endl;
 		cout << "\t\t    ";
 	}
-	
-
 }
 
 void updateBookData(string search){
-	
+	openFile(1);
 	char title[100];//char variable for bookTitle with limit of 100 char
 	char author[100];//char variable for bookAuthor with limit of 100 char
 	char publisher[100];//char variable for bookPublisher with limit of 100 char
 	string avail = "Yes";
 	int select;
 	int n = bookID.size();
+	getline(cin,search);
 	int counter = 0;
 	cout << "\n\t\t\t\tCURRENT RECORD" << endl;
 	cout << "=============================================================================" << endl;
@@ -413,56 +411,60 @@ void updateBookData(string search){
 			cout << "=============================================================================" << endl;
 			cout << "\nAre You Sure You Want to update this Data?" << endl << endl;
 			cout << "Yes[1] or No[0]: ";
-			while(!(cin >> select) || select >1 || select <0){
-				cin.clear();
-				cin.ignore(99999,'\n');
-				cout << "Invalid Input" << endl;
-				cout << "Yes[1] or No[0]: "; 
-			}
-		}
-		if (counter == 0){
-			cout << "\n\t\t\t   Book ID Number not exist!" << endl << endl;
-			cout << "=============================================================================" << endl;
 			break;
+			
 		}
+		
 	}
 	
-	if (select == 1){
-		system("cls");
-		header2();
-		cout << "\t\t\t   UPDATE BOOK INFORMATION" << endl;
-		for (int i = 0; i<n;i++){
-			if (bookID[i] == search){
-				counter++;
-				cout << "=============================================================================" << endl;
-				cout << "|| BOOK ID: " << bookID[i] << endl;
-				cin.ignore();
-				cout << "|| NEW BOOK TITLE: ";
-				cin.getline(title, 50);
-				bookTitle.push_back(title);
-				cout << "|| NEW AUTHOR NAME: ";
-				cin.getline(author, 50);
-				bookAuthor.push_back(author);
-				cout << "|| NEW PUBLISHER NAME: ";
-				cin.getline(publisher, 50);
-				bookPublisher.push_back(publisher);
-				cout << "|| AVAILABILITY: " << bookAvailability[i] << endl;
-				cout << "=============================================================================" << endl;
-				bookTitle[i] = title;
-				bookAuthor[i] = author;
-				bookPublisher[i] = publisher;
-				bookAvailability[i] = avail;
-				saveFile(1);
-				cout << "\nUpdate Successful" << endl << endl;
-				break;
+	if (counter == 0){
+		cout << "\n\t\t\t   Book ID Number not exist!" << endl << endl;
+		cout << "=============================================================================" << endl;
+	}
+	else{
+		while(!(cin >> select) || select >1 || select <0){
+					cin.clear();
+					cin.ignore(99999,'\n');
+					cout << "Invalid Input" << endl;
+					cout << "Yes[1] or No[0]: "; 
+		}
+		
+		if (select == 1){
+			system("cls");
+			header2();
+			cout << "\t\t\t   UPDATE BOOK INFORMATION" << endl;
+			for (int i = 0; i<n;i++){
+				if (bookID[i] == search){
+					counter++;
+					cout << "=============================================================================" << endl;
+					cout << "|| BOOK ID: " << bookID[i] << endl;
+					cin.ignore();
+					cout << "|| NEW BOOK TITLE: ";
+					cin.getline(title, 50);
+					bookTitle.push_back(title);
+					cout << "|| NEW AUTHOR NAME: ";
+					cin.getline(author, 50);
+					bookAuthor.push_back(author);
+					cout << "|| NEW PUBLISHER NAME: ";
+					cin.getline(publisher, 50);
+					bookPublisher.push_back(publisher);
+					cout << "|| AVAILABILITY: " << bookAvailability[i] << endl;
+					cout << "=============================================================================" << endl;
+					bookTitle[i] = title;
+					bookAuthor[i] = author;
+					bookPublisher[i] = publisher;
+					bookAvailability[i] = avail;
+					saveFile(1);
+					cout << "\nUpdate Successful" << endl << endl;
+					break;
+				}
 			}
 		}
+		else if (select == 0){
+					cout << "\nTransaction Cancelled" << endl;
+					cout << "\nReturning to Main Menu" << endl << endl;
+				}
 	}
-	else if (select == 0){
-				cout << "\nTransaction Cancelled" << endl;
-				cout << "\nReturning to Main Menu" << endl << endl;
-			}
-	
 	
 }
 
@@ -568,6 +570,7 @@ void addPatron(){
 }
 
 void searchPatron(){
+	openFile(2);
 	cout << "\t\t\t\tSEARCHING A PATREON INFO" << endl;
 	string search;
 	int n = patreonID.size();
@@ -601,6 +604,7 @@ void searchPatron(){
 				cout << "|| CONTACT #: " << patreonCP[i] << endl;
 				cout << "=============================================================================" << endl;
 				cout << "                                                           Total Records: " << counter << endl;
+				break;
 			}
 		}
 				
@@ -644,11 +648,12 @@ void searchPatron(){
 }
 
 void updatePatronData(string search){
-	
+	openFile(2);
 	char name[100];//char variable for bookTitle with limit of 100 char
 	char contact[100];//char variable for bookAuthor with limit of 100 char
 	int select;
 	int n = patreonID.size();
+	getline(cin,search);
 	int counter = 0;
 	cout << "\n\t\t\t\tCURRENT RECORD" << endl;
 	cout << "=============================================================================" << endl;
@@ -661,48 +666,51 @@ void updatePatronData(string search){
 			cout << "=============================================================================" << endl;
 			cout << "\nAre You Sure You Want to update this Data?" << endl << endl;
 			cout << "Yes[1] or No[0]: ";
-			while(!(cin >> select) || select >1 || select <0){
+			break;
+		
+		}
+	}
+	if (counter == 0){
+		cout << "\n\t\t\t   Patron ID Number not exist!" << endl << endl;
+		cout << "=============================================================================" << endl;
+	}
+	else{
+		while(!(cin >> select) || select >1 || select <0){
 				cin.clear();
 				cin.ignore(99999,'\n');
 				cout << "Invalid Input" << endl;
 				cout << "Yes[1] or No[0]: "; 
-			}
 		}
-		if (counter == 0){
-			cout << "\n\t\t\t   Book ID Number not exist!" << endl << endl;
-			cout << "=============================================================================" << endl;
-			break;
-		}
-	}
 	
-	if (select == 1){
-		system("cls");
-		header2();
-		cout << "\t\t\t   UPDATE PATREON INFORMATION" << endl;
-		for (int i = 0; i<n;i++){
-			if (patreonID[i] == search){
-				counter++;
-				cout << "=============================================================================" << endl;
-				cout << "|| PATREON ID: " << bookID[i] << endl;
-				cin.ignore();
-				cout << "|| NEW PATREON NAME: ";
-				cin.getline(name, 100);
-				bookTitle.push_back(name);
-				cout << "|| NEW PATREON CONTACT #: ";
-				cin.getline(contact, 100);
-				bookAuthor.push_back(contact);
-				cout << "=============================================================================" << endl;
-				patreonName[i] = name;
-				patreonCP[i] = contact;
-				saveFile(2);
-				cout << "\nUpdate Successful" << endl << endl;
-				break;
+		if (select == 1){
+			system("cls");
+			header2();
+			cout << "\t\t\t   UPDATE PATREON INFORMATION" << endl;
+			for (int i = 0; i<n;i++){
+				if (patreonID[i] == search){
+					counter++;
+					cout << "=============================================================================" << endl;
+					cout << "|| PATREON ID: " << patreonID[i] << endl;
+					cin.ignore();
+					cout << "|| NEW PATREON NAME: ";
+					cin.getline(name, 50);
+					patreonName.push_back(name);
+					cout << "|| NEW PATREON CONTACT #: ";
+					cin.getline(contact, 50);
+					patreonName.push_back(contact);
+					cout << "=============================================================================" << endl;
+					patreonName[i] = name;
+					patreonCP[i] = contact;
+					saveFile(2);
+					cout << "\nUpdate Successful" << endl << endl;
+					break;
+				}
 			}
 		}
-	}
-	else if (select == 0){
-				cout << "\nTransaction Cancelled" << endl;
-				cout << "\nReturning to Main Menu" << endl << endl;
+		else if (select == 0){
+					cout << "\nTransaction Cancelled" << endl;
+					cout << "\nReturning to Main Menu" << endl << endl;
+		}
 	}
 }
 
@@ -880,7 +888,6 @@ do{
 				header2();
 				cout << "\t\t\t   UPDATE BOOK INFORMATION" << endl;
 				cout << "Search by Book ID No.: ";
-				getline(cin, bookID);
 				updateBookData(bookID);
 				system("pause");
 				system("cls");
@@ -926,7 +933,6 @@ do{
 				header2();
 				cout << "\t\t\t   UPDATE PATREON INFORMATION" << endl;
 				cout << "Search by Patreon ID No.: ";
-				getline(cin, patreonID);
 				updatePatronData(patreonID);
 				system("pause");
 				system("cls");
