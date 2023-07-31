@@ -820,76 +820,109 @@ void displayPatronList(){
 }
 
 void checkOut(){
+	cout << "\t\t\t   CHECK OUT BOOKS" << endl;
+	cout << "\n(enter id not exist to exit)";
+	TryAgain1:
+	openFile(3);
 	openFile(2);
+	openFile(1);
+	string borrowID;
+	string borrowName;
+	string borrowCP;
+	string borrowAvail = "Yes";
 	string patronSearch;
-	int counter1 = 0;
+	int patron = 0;
 	cout << "\nPatron ID: ";
 	cin >> patronSearch;
 	for (int i = 0; i<(int)patreonID.size();i++){
 		if (patreonID[i] == patronSearch){
-			counter1++;
 			cout << "=============================================================================" << endl;
 			cout << "|| PATRON ID: " << patreonID[i] << endl;
 			cout << "|| NAME: " << patreonName[i] << endl;
 			cout << "|| CONTACT #: " << patreonCP[i] << endl;
 			cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
-
+			cout << "=============================================================================" << endl;
+			if (patreonAvail[i] == "Yes"){
+				cout << "Patron already check out a book" << endl;
+				goto TryAgain1;
+			}
+			else if (patreonAvail[i] == "No"){
+				cout << "Patron can check out a book" << endl;
+				patron++;
+				borrowID = patreonID[i];
+				borrowName = patreonName[i];
+				borrowCP = patreonCP[i];
+				patreonAvail[i] = "Yes";
+				break;
+			}
 		}
-		if (patreonAvail[i] == "No"){
-			cout << "Can Borrow Books" << endl;
-			break;
-		}
-		else{
-			cout << "Cant Borrow Books" << endl;
-			break;
-		}
-//			patreonAvail[i]= "Yes";
-//			checkPatronID.push_back(patreonID[i]);
-//			checkPatronName.push_back(patreonName[i]);
-//			checkPatronCP.push_back(patreonCP[i]);;
-//			checkPatronAvail.push_back(patreonAvail[i]);
-////			saveFile(3);
-////			saveFile(2);
-//			break;
-//		}
-//		else if(patreonAvail[i] == "Yes"){
-//			cout << "Patron already check out a book" << endl;
-//			break;
-//		}
 	}
-//	string bookSearch;
-//	int counter2 = 0;
-//	cout << "\nBook ID: ";
-//	cin >> bookSearch;
-//	cout << "=============================================================================" << endl;
-//	for (int i = 0; i<(int)bookID.size();i++){
-//		if (bookID[i] == bookSearch){
-//			counter2++;
-//			cout << "|| BOOK ID: " << bookID[i] << endl;
-//			cout << "|| TITLE: " << bookTitle[i] << endl;
-//			cout << "|| AUTHOR: " << bookAuthor[i] << endl;
-//			cout << "|| PUBLISHER: " << bookPublisher[i] << endl;
-//			cout << "|| AVAILABILITY: " << bookAvailability[i] << endl;
-//			if (bookAvailability[i] == "Yes"){
-//				bookAvailability[i] = "No";
-//				checkBookID.push_back(bookID[i]);
-//				checkBookTitle.push_back(bookTitle[i]);
-//				checkBookAuthor.push_back(bookAuthor[i]);
-//				checkBookPublisher.push_back(bookPublisher[i]);
-//				checkBookAvailability.push_back(bookAvailability[i]);
-//				saveFile(3);
-//				saveFile(1);
-//				break;
-//			}
-//			else if (bookAvailability[i] == "No"){
-//				cout << "Book already check out" << endl;
-//				break;
-//			}
-//		}
-//	}
+	if (patron == 0){
+		cout << "=============================================================================" << endl;
+		cout << "\t\t\t\tEMPTY RECORD" << endl << endl;
+		cout << "=============================================================================" << endl;
+	}
+	TryAgain2:
+	string borrowBookID;
+	string borrowBookTitle;
+	string borrowBookAuthor;
+	string borrowBookPublisher;
+	string borrowBookAvailability = "No";
+	int book = 0;
+	string bookSearch;
+	cout << "\n(enter id not exist to exit)";
+	cout << "\nBook ID: ";
+	cin >> bookSearch;
+	for (int i = 0; i<(int)patreonID.size();i++){
+		if (bookID[i] == bookSearch){
+			cout << "=============================================================================" << endl;
+			cout << "|| BOOK ID: " << bookID[i] << endl;
+			cout << "|| TITLE: " << bookTitle[i] << endl;
+			cout << "|| AUTHOR: " << bookAuthor[i] << endl;
+			cout << "|| PUBLISHER: " << bookPublisher[i] << endl;
+			cout << "|| AVAILABILITY: " << bookAvailability[i] << endl;
+			cout << "=============================================================================" << endl;
+			if (bookAvailability[i] == "No"){
+				cout << "Book already check out" << endl;
+				goto TryAgain2;
+			}
+			else if (bookAvailability[i] == "Yes"){
+				cout << "Book can be check out" << endl;
+				book++;
+				borrowBookID = bookID[i];
+				borrowBookTitle = bookTitle[i];
+				borrowBookAuthor = bookAuthor[i];
+				borrowBookPublisher = bookPublisher[i];
+				bookAvailability[i] = "No";
+				break;
+			}
+		}
+	}
+	if (patron == 0){
+		cout << "=============================================================================" << endl;
+		cout << "\t\t\t\tEMPTY RECORD" << endl << endl;
+		cout << "=============================================================================" << endl;
+	}
+	
+	if (patron == 1 && book == 1){
+		checkPatronID.push_back(borrowID);
+		checkPatronName.push_back(borrowName);
+		checkPatronCP.push_back(borrowCP);
+		checkPatronAvail.push_back(borrowAvail);
+		checkBookID.push_back(borrowBookID);
+		checkBookTitle.push_back(borrowBookTitle);
+		checkBookAuthor.push_back(borrowBookAuthor);
+		checkBookPublisher.push_back(borrowBookPublisher);
+		checkBookAvailability.push_back(borrowBookAvailability);
+		cout << "\nSuccessfully Check Out" << endl << endl;
+		saveFile(1);
+		saveFile(2);
+		saveFile(3);
+	}
 }
 
 void returnBooks(){
+	cout << "\t\t\t   RETURN BOOKS" << endl;
 	openFile(1);
 	openFile(2);
 	openFile(3);
@@ -897,7 +930,8 @@ void returnBooks(){
 	int counter = 0;
 	int select;
 	string search;
-	cout << "Enter Book ID: ";
+	cout << "\n(enter id not exist to exit)";
+	cout << "\nEnter Book ID: ";
 	cin >> search;
 	cout << "\t\t\t\tCURRENT RECORD" << endl;
 	cout << "=============================================================================" << endl;
@@ -912,7 +946,8 @@ void returnBooks(){
 			cout << "|| PATRON NAME: " << checkPatronName[i] << endl;
 			cout << "|| PATRON CONTACT #: " << checkPatronCP[i] << endl;
 			cout << "=============================================================================" << endl;
-			cout << "Are You Sure You Want to delete this Data?" << endl << endl;
+			cout << "Are You Sure You Want to Return this book?" << endl << endl;
+			cout << "This Data will delete once the you return the book" << endl << endl;
 			cout << "Yes[1] or [0]: ";
 			break;
 		}
@@ -993,8 +1028,8 @@ int main(){
 	int option;
 	string bookID;
 	string patreonID;
-//	header();
-//	logIN();
+	header();
+	logIN();
 do{
 	system("cls");
 	header2();
@@ -1003,7 +1038,8 @@ do{
 	cout << "[3]\tUpdate a book\t\t\t\t[8]\tUpdate Patron Info" << endl << endl;
 	cout << "[4]\tDelete a book\t\t\t\t[9]\tDelete Patron Info" << endl << endl;
 	cout << "[5]\tDisplay all books\t\t\t[10]\tDisplay all Patron Info" << endl << endl;
-	cout << "[11]\tCheck Out Books\t\t\t\t[12]\tReturn Books" << endl << endl << endl;
+	cout << "[11]\tCheck Out Books\t\t\t\t[12]\tReturn Books" << endl << endl;
+	cout << "[13]\tDisplay Check Out\t\t\t[0]\tExit" << endl << endl << endl;
 	cout << "\tSelect: ";
 	while(!(cin>>option)|| option >13 || option <0){
 		cin.clear();
