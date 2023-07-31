@@ -6,17 +6,30 @@
 
 using namespace std;
 
-
+	vector<string>userName = {"admin"};
+	vector<string>passWord = {"1234"};
+	
 	vector<string>bookID;
 	vector<string>bookTitle;
 	vector<string>bookAuthor;
 	vector<string>bookPublisher;
 	vector<string>bookAvailability;
-	vector<string>userName;
-	vector<string>passWord;
+	
 	vector<string>patreonID;
 	vector<string>patreonName;
 	vector<string>patreonCP;
+	vector<string>patreonAvail;
+	
+	vector<string>checkBookID;
+	vector<string>checkBookTitle;
+	vector<string>checkBookAuthor;
+	vector<string>checkBookPublisher;
+	vector<string>checkBookAvailability;
+	vector<string>checkPatronID;
+	vector<string>checkPatronName;
+	vector<string>checkPatronCP;
+	vector<string>checkPatronAvail;
+	
 	
 void openFile(int s){
 	string word;
@@ -40,10 +53,19 @@ void openFile(int s){
 				if(pos == 0 and word.size()!=0) patreonID.push_back(word);
 				if(pos == 1 and word.size()!=0) patreonName.push_back(word);
 				if(pos == 2 and word.size()!=0) patreonCP.push_back(word);
+				if(pos == 3 and word.size()!=0) patreonAvail.push_back(word);
 			}
-//			if(s==3){
-//				
-//			}
+			if(s==3){
+				if(pos == 0 and word.size()!=0) checkBookID.push_back(word);
+				if(pos == 1 and word.size()!=0) checkBookTitle.push_back(word);
+				if(pos == 2 and word.size()!=0) checkBookAuthor.push_back(word);
+				if(pos == 3 and word.size()!=0) checkBookPublisher.push_back(word);
+				if(pos == 4 and word.size()!=0) checkBookAvailability.push_back(word);
+				if(pos == 5 and word.size()!=0) checkPatronID.push_back(word);
+				if(pos == 6 and word.size()!=0) checkPatronName.push_back(word);
+				if(pos == 7 and word.size()!=0) checkPatronCP.push_back(word);
+				if(pos == 8 and word.size()!=0) checkPatronAvail.push_back(word);
+			}
 			pos++;
 			if(word.size()==0) pos = 0;
 		}
@@ -74,19 +96,24 @@ void saveFile(int n){
 				fstream mf("patronData.txt", ios::app);
 				mf << patreonID[i] << "\n";
 				mf << patreonName[i] << "\n";
-				mf << patreonCP[i] << "\n\n";
+				mf << patreonCP[i] << "\n";
+				mf << patreonAvail[i] << "\n\n";
 			}
 		}
-//		if(n==3){
-//			for (int i = 0; i<bookID.size();i++){
-//				fstream mf("bookData.txt", ios::app);
-//				mf << bookID[i] << "\n";
-//				mf << bookTitle[i] << "\n";
-//				mf << bookAuthor[i] << "\n";
-//				mf << bookPublisher[i] << "\n";
-//				mf << bookAvailability[i] << "\n\n";
-//			}
-//		}
+		if(n==3){
+			for (int i = 0; i<(int)checkBookID.size();i++){
+				fstream mf("checkoutData.txt", ios::app);
+				mf << checkBookID[i] << "\n";
+				mf << checkBookTitle[i] << "\n";
+				mf << checkBookAuthor[i] << "\n";
+				mf << checkBookPublisher[i] << "\n";
+				mf << checkBookAvailability[i] << "\n";
+				mf << checkPatronID[i] << "\n";
+				mf << checkPatronName[i] << "\n";
+				mf << checkPatronCP[i] << "\n";
+				mf << checkPatronAvail[i] << "\n\n";
+			}
+		}
 		myfile.close();
 	}
 }
@@ -165,7 +192,7 @@ void logIN(){
 void addBookData(){
 	
 	
-	char id[5];//char variable for bookID with limit of 5 char
+	char id[100];//char variable for bookID with limit of 5 char
 	char title[100];//char variable for bookTitle with limit of 100 char
 	char author[100];//char variable for bookAuthor with limit of 100 char
 	char publisher[100];//char variable for bookPublisher with limit of 100 char
@@ -390,10 +417,9 @@ void searchBooks(){
 
 void updateBookData(string search){
 	openFile(1);
-	char title[100];//char variable for bookTitle with limit of 100 char
-	char author[100];//char variable for bookAuthor with limit of 100 char
-	char publisher[100];//char variable for bookPublisher with limit of 100 char
-	string avail = "Yes";
+	char title[100];
+	char author[100];
+	char publisher[100];
 	int select;
 	int n = bookID.size();
 	getline(cin,search);
@@ -453,7 +479,7 @@ void updateBookData(string search){
 					bookTitle[i] = title;
 					bookAuthor[i] = author;
 					bookPublisher[i] = publisher;
-					bookAvailability[i] = avail;
+					bookAvailability[i] = bookAvailability[i];
 					saveFile(1);
 					cout << "\nUpdate Successful" << endl << endl;
 					break;
@@ -483,28 +509,35 @@ void deleteBookData(string search){
 			cout << "|| PUBLISHER: " << bookPublisher[i] << endl;
 			cout << "|| AVAILABILITY: " << bookAvailability[i] << endl;
 			cout << "=============================================================================" << endl;
-			cout << "Are You Sure You Want to delete this Data?" << endl << endl;
-			cout << "Yes[1] or [0]: ";
-			while(!(cin >> select) || select >1 || select<0){
-				cin.clear();
-				cin.ignore(99999,'\n');
-				cout << "Invalid Input" << endl;
-				cout << "Yes[1] or [0]: ";
-			}
-			if (select == 1){
-				bookID.erase(bookID.begin()+i);
-				bookTitle.erase(bookTitle.begin()+i);
-				bookAuthor.erase(bookAuthor.begin()+i);
-				bookPublisher.erase(bookPublisher.begin()+i);
-				bookAvailability.erase(bookAvailability.begin()+i);
-				cout << "\nSuccesfully Deleted" << endl << endl;
-				saveFile(1);
-				break;
+			if (bookAvailability[i] == "No"){
+				cout << "This Book has been Checked Out" << endl << endl;
+				cout << "Cannot be DELETE!" << endl << endl;
+				cout << "Transaction Cancelled" << endl << endl;
 			}
 			else{
-				cout << "\nTransaction Cancelled" << endl;
-				cout << "\nReturn to Main Menu" << endl << endl;
-				break;
+				cout << "Are You Sure You Want to delete this Data?" << endl << endl;
+				cout << "Yes[1] or [0]: ";
+				while(!(cin >> select) || select >1 || select<0){
+					cin.clear();
+					cin.ignore(99999,'\n');
+					cout << "Invalid Input" << endl;
+					cout << "Yes[1] or [0]: ";
+				}
+				if (select == 1){
+					bookID.erase(bookID.begin()+i);
+					bookTitle.erase(bookTitle.begin()+i);
+					bookAuthor.erase(bookAuthor.begin()+i);
+					bookPublisher.erase(bookPublisher.begin()+i);
+					bookAvailability.erase(bookAvailability.begin()+i);
+					cout << "\nSuccesfully Deleted" << endl << endl;
+					saveFile(1);
+					break;
+				}
+				else{
+					cout << "\nTransaction Cancelled" << endl;
+					cout << "\nReturn to Main Menu" << endl << endl;
+					break;
+				}
 			}
 		}
 	}
@@ -538,9 +571,10 @@ void displayBookList(){
 }
 
 void addPatron(){
-	char id[5];//char variable for bookID with limit of 5 char
-	char name[100];//char variable for bookTitle with limit of 100 char
-	char contact[100];//char variable for bookAuthor with limit of 100 char
+	char id[100];
+	char name[100];
+	char contact[100];
+	string avail = "No";
 	cin.ignore();
 	Input:
 	system("cls");
@@ -564,6 +598,7 @@ void addPatron(){
 		cout << "Patreon CP #: ";
 		cin.getline(contact, 100);
 		patreonCP.push_back(contact);
+		patreonAvail.push_back(avail);
 		cout << "\nAdded Succesful!" << endl << endl;
 		saveFile(2);
 		patreonID.clear(); patreonName.clear(); patreonCP.clear();
@@ -602,6 +637,7 @@ void searchPatron(){
 				cout << "|| PATREON ID: " << patreonID[i] << endl;
 				cout << "|| NAME: " << patreonName[i] << endl;
 				cout << "|| CONTACT #: " << patreonCP[i] << endl;
+				cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
 				cout << "=============================================================================" << endl;
 				cout << "                                                           Total Records: " << counter << endl;
 				break;
@@ -629,6 +665,7 @@ void searchPatron(){
 				cout << "|| PATREON ID: " << patreonID[i] << endl;
 				cout << "|| NAME: " << patreonName[i] << endl;
 				cout << "|| CONTACT #: " << patreonCP[i] << endl;
+				cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
 				cout << "=============================================================================" << endl;
 				cout << "                                                           Total Records: " << counter << endl;
 			}
@@ -663,6 +700,7 @@ void updatePatronData(string search){
 			cout << "|| PATREON ID: " << patreonID[i] << endl;
 			cout << "|| NAME: " << patreonName[i] << endl;
 			cout << "|| CONTACT #: " << patreonCP[i] << endl;
+			cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
 			cout << "=============================================================================" << endl;
 			cout << "\nAre You Sure You Want to update this Data?" << endl << endl;
 			cout << "Yes[1] or No[0]: ";
@@ -698,9 +736,11 @@ void updatePatronData(string search){
 					cout << "|| NEW PATREON CONTACT #: ";
 					cin.getline(contact, 50);
 					patreonName.push_back(contact);
+					cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
 					cout << "=============================================================================" << endl;
 					patreonName[i] = name;
 					patreonCP[i] = contact;
+					patreonAvail[i] = patreonAvail[i];
 					saveFile(2);
 					cout << "\nUpdate Successful" << endl << endl;
 					break;
@@ -767,6 +807,7 @@ void displayPatronList(){
 			cout << "|| PATREON ID: " << patreonID[i] << endl;
 			cout << "|| NAME: " << patreonName[i] << endl;
 			cout << "|| CONTACT #: " << patreonCP[i] << endl;
+			cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
 			cout << "=============================================================================" << endl;
 			
 	}
@@ -780,6 +821,8 @@ void displayPatronList(){
 void checkOut(){
 		system("cls");
 		header2();
+		openFile(1);
+		openFile(2);
 		string patSearch;
 		string bookSearch;
 		int n = patreonID.size();
@@ -796,11 +839,16 @@ void checkOut(){
 				cout << "|| PATREON ID: " << patreonID[i] << endl;
 				cout << "|| NAME: " << patreonName[i] << endl;
 				cout << "|| CONTACT #: " << patreonCP[i] << endl;
+				cout << "|| BORROWED BOOKS: " << patreonAvail[i] << endl;
 				cout << "=============================================================================" << endl;
 			}
 			if (counter == 0){
 				cout << "\n\t\t\t\tNO RECORD FOUND" << endl << endl;
 				cout << "=============================================================================" << endl;
+				goto Input;
+			}
+			if(patreonAvail[i] == "Yes"){
+				cout << "The Patron already checked out a book" << endl;
 				goto Input;
 			}
 		}
@@ -825,31 +873,47 @@ void checkOut(){
 				cout << "=============================================================================" << endl;
 				goto Input2;
 			}
-		}
-		
-		for (int i = 0; i<m;i++){
 			if (bookAvailability[i] == "No"){
 				cout << "This Boook is already Checked Out" << endl;
 				break;
 			}
-			else{
-				cout << "Check Out Successful" << endl;
-				bookAvailability[i] = "No";
-				break;
-			}
+		}
+		
+		for (int i = 0; i<m;i++){
+			cout << "Check Out Successful" << endl;
+			bookAvailability[i] = "No";
+			patreonAvail[i]= "Yes";
+			saveFile(1);
+			checkBookID.push_back(bookID[i]);
+			checkBookTitle.push_back(bookTitle[i]);
+			checkBookAuthor.push_back(bookAuthor[i]);
+			checkBookPublisher.push_back(bookPublisher[i]);
+			checkBookAvailability.push_back(bookAvailability[i]);
+			checkPatronID.push_back(patreonID[i]);
+			checkPatronName.push_back(patreonName[i]);
+			checkPatronCP.push_back(patreonCP[i]);;
+			checkPatronAvail.push_back(patreonAvail[i]);
+			saveFile(3);
+			break;
 		}
 
 }
 
+void returnBooks(){
+	
+}
 
+void displayCheckOut(){
+	
+}
 	
 int main(){
 	
 	int option;
 	string bookID;
 	string patreonID;
-//	header();
-//	logIN();
+	header();
+	logIN();
 do{
 	system("cls");
 	header2();
@@ -969,7 +1033,15 @@ do{
 		case 12: 
 				system("cls");
 				header2();
-				checkOut();
+				returnBooks();
+				system("pause");
+				system("cls");
+				break;
+				
+		case 13:
+				system("cls");
+				header2();
+				displayCheckOut();
 				system("pause");
 				system("cls");
 				break;
