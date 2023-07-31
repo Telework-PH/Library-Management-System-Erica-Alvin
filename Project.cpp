@@ -7,19 +7,16 @@
 using namespace std;
 
 
-	vector<string>bookID = {"001","002","003"};
-	vector<string>bookTitle = {"Ibong Adarna","Noli Me Tangere", "El Filibusterismo"};
-	vector<string>bookAuthor = {"Jose Dela Cruz", "Jose Rizal" , "Jose Rizal"};
-	vector<string>bookPublisher = {"Anvil Publishing Inc.","Berliner Buchdruckerei-Aktiengesellschaft", "F. Meyer van Loo Press"};
-	vector<string>bookAvailability = {"Yes","Yes","Yes"};
-	vector<string>userName = {"admin"};
-	vector<string>passWord = {"1234"};
-	vector<string>patreonID = {"001", "002", "003"};
-	vector<string>patreonName = {"Ruben Bartolome", "Agapito Bondoc", "Protacio Magtanggol"};
-	vector<string>patreonCP = {"09755862365", "09066040100", "09992852132"};
-	vector<int>checkMonth;
-	vector<int>checkDay;
-	vector<int>checkyear;
+	vector<string>bookID;
+	vector<string>bookTitle;
+	vector<string>bookAuthor;
+	vector<string>bookPublisher;
+	vector<string>bookAvailability;
+	vector<string>userName;
+	vector<string>passWord;
+	vector<string>patreonID;
+	vector<string>patreonName;
+	vector<string>patreonCP;
 	
 void openFile(int n){
 	string word;
@@ -455,7 +452,7 @@ void updateBookData(string search){
 				bookAuthor[i] = author;
 				bookPublisher[i] = publisher;
 				bookAvailability[i] = avail;
-				
+				saveFile(1);
 				cout << "\nUpdate Successful" << endl << endl;
 				break;
 			}
@@ -499,6 +496,7 @@ void deleteBookData(string search){
 				bookPublisher.erase(bookPublisher.begin()+i);
 				bookAvailability.erase(bookAvailability.begin()+i);
 				cout << "\nSuccesfully Deleted" << endl << endl;
+				saveFile(1);
 				break;
 			}
 			else{
@@ -696,7 +694,7 @@ void updatePatronData(string search){
 				cout << "=============================================================================" << endl;
 				patreonName[i] = name;
 				patreonCP[i] = contact;
-				
+				saveFile(2);
 				cout << "\nUpdate Successful" << endl << endl;
 				break;
 			}
@@ -734,6 +732,7 @@ void deletePatronData(string search){
 				patreonName.erase(patreonName.begin()+i);
 				patreonCP.erase(patreonCP.begin()+i);
 				cout << "\nSuccesfully Deleted" << endl << endl;
+				saveFile(2);
 				break;
 			}
 			else{
@@ -826,10 +825,6 @@ void checkOut(){
 				break;
 			}
 			else{
-				int month;
-				int day;
-				int year;
-				cout << "Enter";
 				cout << "Check Out Successful" << endl;
 				bookAvailability[i] = "No";
 				break;
