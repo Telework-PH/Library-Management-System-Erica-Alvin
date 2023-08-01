@@ -228,10 +228,10 @@ void searchBooks(){
 	int n = bookID.size();
 	int counter = 0;
 	int select;
-	cout << "\n\t\t\t\t  Search by: " << endl << endl;;
-	cout << "\t\t[1] Book ID\t\t\t[2] Book Tittle" << endl << endl;;
-	cout << "\t\t[3] Boook Author\t\t[4] Book Publisher" << endl << endl;;
-	cout << "\t\t[5] Book Availability\t\t[0] Return to Main Menu" << endl << endl;;
+	cout << "\n\t\t\t\t  Search by: " << endl << endl;
+	cout << "\t\t[1] Book ID\t\t\t[2] Book Tittle" << endl << endl;
+	cout << "\t\t[3] Boook Author\t\t[4] Book Publisher" << endl << endl;
+	cout << "\t\t[5] Book Availability\t\t[0] Return to Main Menu" << endl << endl;
 	cout << "\t\t    Select: ";
 	while(!(cin >> select) || select > 5 || select < 0){
 		cin.clear();
@@ -603,10 +603,10 @@ void searchPatron(){
 	int n = patreonID.size();
 	int counter = 0;
 	int select;
-	cout << "\n\t\t\t\t  Search by: " << endl << endl;;
-	cout << "\t\t[1] Patreon ID" << endl << endl;;
-	cout << "\t\t[2] Patreon Name" << endl << endl;;
-	cout << "\t\t[0] Return to Main Menu" << endl << endl;;
+	cout << "\n\t\t\t\t  Search by: " << endl << endl;
+	cout << "\t\t[1] Patreon ID" << endl << endl;
+	cout << "\t\t[2] Patreon Name" << endl << endl;
+	cout << "\t\t[0] Return to Main Menu" << endl << endl;
 	cout << "\t\t    Select: ";
 	while(!(cin >> select) || select > 2 || select < 0){
 		cin.clear();
