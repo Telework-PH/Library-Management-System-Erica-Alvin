@@ -919,6 +919,8 @@ void checkOut(){
 		saveFile(2);
 		saveFile(3);
 	}
+	checkPatronID.clear(); checkPatronName.clear(); checkPatronCP.clear(); checkPatronAvail.clear(); checkBookID.clear();
+	checkBookTitle.clear(); checkBookAuthor.clear(); checkBookPublisher.clear(); checkBookAvailability.clear();
 }
 
 void returnBooks(){
@@ -1013,7 +1015,6 @@ void displayCheckOut(){
 			cout << "|| PATRON NAME: " << checkPatronName[i] << endl;
 			cout << "|| PATRON ID: " << checkPatronCP[i] << endl;
 			cout << "=============================================================================" << endl;
-			break;
 	}
 			
 	if (counter == 0){
